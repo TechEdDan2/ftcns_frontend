@@ -13,7 +13,7 @@ const useLocal = (key, initialValue = null) => {
     });
 
     useEffect(() => {
-        console.debug("useLocal effect triggered", { key, value });
+
 
         if (value === null) {
             localStorage.removeItem(key);

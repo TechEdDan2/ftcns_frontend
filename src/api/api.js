@@ -22,7 +22,7 @@ class FtcnsAPI {
      * @returns {object} - The response data from the API
      */
     static async request(endpoint, data = {}, method = "get") {
-        console.debug("API Call:", endpoint, data, method);
+
 
         const url = `${BASE_URL}/${endpoint}`;
         const headers = {
@@ -71,19 +71,30 @@ class FtcnsAPI {
     /** Sign Up a New User */
     static async signup(data) {
         let res = await this.request("auth/register", data, "post");
-        this.setToken(res.token); // Save token to localStorage and class variable
-        return res.token;
+        const token = res.token;
+        const username = this.getUsernameFromToken(token); // Extract username from token
+        if (!username) {
+            throw new Error("Failed to extract username from token.");
+        }
+        this.setToken(token); // Save token to localStorage and class variable
+        return { token, username }; // Return both token and username
     }
 
     /** Login a User */
     static async login(data) {
         let res = await this.request("auth/token", data, "post");
-        this.setToken(res.token); // Save token to localStorage and class variable
-        return res.token;
+        const token = res.token;
+        const username = this.getUsernameFromToken(token); // Extract username from token
+        if (!username) {
+            throw new Error("Failed to extract username from token.");
+        }
+        this.setToken(token); // Save token to localStorage and class variable
+        return { token, username }; // Return both token and username
     }
 
     /** Get details on a user by username. */
     static async getCurrentUser(token, username) {
+
         if (!token) {
             throw new Error("No token found. Please log in.");
         }
@@ -93,7 +104,8 @@ class FtcnsAPI {
         }
 
         const headers = { Authorization: `Bearer ${token}` }; // Use token from arguments
-        let res = await this.request(`users/${username}`, {}, "get", headers);
+        const params = { username }; // Add username as a query parameter
+        let res = await this.request(`users/${username}`, params, "get", headers);
         return res.user;
     }
 
@@ -126,6 +138,49 @@ class FtcnsAPI {
         }
     }
 
+    //------------------//
+    //  Teams Routes    //
+    //------------------//
+
+    /** 
+     * GET a list of all teams if no filter is provided, 
+     *  use the standard GET /teams route. If filter criteria is 
+     *  provided, use the GET /teams/filter route with query 
+     *  parameters. 
+     * @param {string} searchTerm - Optional search term for filtering teams
+     * @return {array} List of teams matching the criteria or all teams if no criteria provided
+    */
+    static async getTeams(searchTerm) {
+        if (!searchTerm) {
+            return await this.request("teams");
+        } else {
+            return await this.request("teams/filter", searchTerm.toLowerCase());
+        }
+    }
+
+    /** 
+     * GET team by team number
+     * 
+     * @param {number} teamNumber - The team number to search for
+     * @return {object} The team object matching the team number
+     * 
+     */
+    static async getTeamsByNumber(teamNumber) {
+        return await this.request(`teams/${teamNumber}`);
+    }
+
+
+
+
+    //------------------//
+    //  Events Routes    //
+    //------------------//
+
+
+    //------------------//
+    //  Notes Routes    //
+    //------------------//
 }
+
 
 export default FtcnsAPI;

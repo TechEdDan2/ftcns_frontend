@@ -19,11 +19,11 @@ const NavBar = ({ isLoggedIn, handleLogout }) => {
 
                     {isLoggedIn ? (
                         <>
-                            <Button color="inherit" component={NavLink} to="/companies">
+                            <Button color="inherit" component={NavLink} to="/teams">
                                 Teams
                             </Button>
 
-                            <Button color="inherit" component={NavLink} to="/jobs">
+                            <Button color="inherit" component={NavLink} to="/notes">
                                 Notes
                             </Button>
 
@@ -31,7 +31,7 @@ const NavBar = ({ isLoggedIn, handleLogout }) => {
                                 Profile
                             </Button>
 
-                            <Button color="inherit" onClick={handleLogout} component={Link} to="/login">
+                            <Button color="inherit" onClick={handleLogout} component={Link} to="/">
                                 Logout
                             </Button>
                         </>

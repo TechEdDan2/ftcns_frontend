@@ -35,6 +35,7 @@ const SignUpForm = () => {
     const handleSubmit = async (evt) => {
         evt.preventDefault();
         const success = await onSignUp(formData);
+        console.log("Signed Up with Form");
         if (success) {
             navigate("/");
         }
