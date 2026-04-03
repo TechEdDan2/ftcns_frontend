@@ -10,6 +10,8 @@ import LoginForm from './components/auth/LoginForm.jsx'
 import SignUpForm from './components/auth/SignUpForm.jsx'
 import Footer from './components/nav-bar/Footer.jsx'
 import Profile from './components/user/Profile.jsx'
+import TeamsList from './components/teams/TeamsList.jsx'
+import TeamDetail from './components/teams/TeamDetail.jsx'
 
 import './App.css'
 import FtcnsAPI from './api/api.js'
@@ -70,6 +72,8 @@ function App() {
             <Route path="/login" element={<LoginForm />} />
             <Route path="/signup" element={<SignUpForm />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/teams" element={<TeamsList />} />
+            <Route path="/teams/:team_number" element={<TeamDetail />} />
           </Routes>
         </main>
         <Footer />

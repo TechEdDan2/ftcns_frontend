@@ -151,10 +151,14 @@ class FtcnsAPI {
      * @return {array} List of teams matching the criteria or all teams if no criteria provided
     */
     static async getTeams(searchTerm) {
-        if (!searchTerm) {
-            return await this.request("teams");
+        if (searchTerm) {
+            let res = await this.request(`teams/filter`, { search: searchTerm });
+            console.log("Filtered teams response:", res);
+            return res; // Return filtered teams
         } else {
-            return await this.request("teams/filter", searchTerm.toLowerCase());
+            let res = await this.request(`teams`);
+            console.log("All teams response:", res);
+            return res; // Return all teams
         }
     }
 
