@@ -13,7 +13,7 @@ import { useParams } from 'react-router-dom';
 
 const TeamDetail = () => {
     const { team_number } = useParams();
-    console.log("Extracted team_number from URL:", team_number); // Debugging
+    // console.log("Extracted team_number from URL:", team_number); // Debugging
 
     const [teamData, setTeamData] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
@@ -23,7 +23,7 @@ const TeamDetail = () => {
             try {
                 const data = await FtcApi.getTeamsByNumber(team_number);
                 setTeamData(data);
-                console.log("Fetched team data:", data); // Debugging
+                // console.log("Fetched team data:", data); // Debugging
             } catch (error) {
                 console.error('Error fetching team data:', error);
             } finally {

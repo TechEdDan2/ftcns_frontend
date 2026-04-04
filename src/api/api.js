@@ -150,14 +150,14 @@ class FtcnsAPI {
      * @param {string} searchTerm - Optional search term for filtering teams
      * @return {array} List of teams matching the criteria or all teams if no criteria provided
     */
-    static async getTeams(searchTerm) {
+    static async getTeams(searchTerm, searchType) {
         if (searchTerm) {
-            let res = await this.request(`teams/filter`, { search: searchTerm });
-            console.log("Filtered teams response:", res);
+            let res = await this.request(`teams/filter`, { term: searchTerm, type: searchType });
+            // console.log("Filtered teams response:", res);//Debugging 
             return res; // Return filtered teams
         } else {
             let res = await this.request(`teams`);
-            console.log("All teams response:", res);
+            // console.log("All teams response:", res);//Debugging 
             return res; // Return all teams
         }
     }

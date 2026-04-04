@@ -14,10 +14,10 @@ const TeamsList = () => {
     const [teams, setTeams] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
 
-    const onSearch = async (searchTerm) => {
+    const onSearch = async ({ searchTerm }) => {
         try {
             const data = await FtcApi.getTeams(searchTerm);
-            setTeams(data.teams || []); // Ensure teams is always an array
+            setTeams(data || []); // Ensure teams is always an array
         } catch (error) {
             console.error("Error fetching teams:", error);
             setTeams([]); // Fallback to an empty array on error
@@ -29,7 +29,7 @@ const TeamsList = () => {
             try {
                 const data = await FtcApi.getTeams();
                 setTeams(data || []); // Ensure teams is always an array
-                console.log("Fetched teams:", data);
+                // console.log("Fetched teams:", data);// Debugging
             } catch (error) {
                 console.error("Error fetching teams:", error);
                 setTeams([]); // Fallback to an empty array on error
@@ -48,7 +48,7 @@ const TeamsList = () => {
     return (
         <div>
             <h2>USNYLI Teams</h2>
-            <Search onSearch={onSearch} />
+            {/* <Search onSearch={onSearch} />//Update this feature in the future */}
             {teams.length === 0 ? (
                 <p>No teams found.</p>
             ) : (

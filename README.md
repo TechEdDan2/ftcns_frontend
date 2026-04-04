@@ -17,6 +17,8 @@ The frontend of the FTCNS application is built using React and Vite. It provides
 ## Features
 
 ## Future Improvements
+- update the UI to be more visually appealing and user-friendly
+- update a search feature to allow users to search for teams and notes more effectively
 
 ## Built With
 - React
