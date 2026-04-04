@@ -47,7 +47,20 @@ const TeamDetail = () => {
             <h1>{teamData.team_name} (#{teamData.team_number})</h1>
             <p>Rookie Year: {teamData.rookie_year}</p>
             {/* Add more team details as needed */}
-            {/* Possibly List Notes on that team? */}
+            {/* List Notes on that team? */}
+            <h2>Notes:</h2>
+            {teamData.notes && teamData.notes.length > 0 ? (
+                <ul>
+                    {teamData.notes.map(note => (
+                        <li key={note.id}>
+                            <strong>{note.title}</strong>: {note.content} (Created at: {new Date(note.created_at).toLocaleString()})
+                        </li>
+                    ))}
+                </ul>
+            ) : (
+                <p>No notes available for this team.</p>
+            )}
+
         </div>
     );
 }

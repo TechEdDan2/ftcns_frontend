@@ -42,6 +42,10 @@ const Profile = () => {
         fetchUserData();
     }, [user]);
 
+    useEffect(() => {
+        console.log("userData.notes:", userData?.notes);
+    }, [userData]);
+
     if (isLoading) {
         return <div>Loading...</div>;
     }
@@ -60,7 +64,7 @@ const Profile = () => {
                 <ul>
                     {userData.notes.map(note => (
                         <li key={note.id}>
-                            <strong>Team:</strong> {note.teamNumber}
+                            <strong>Team: </strong> {note.teamnumber}&nbsp;
                             <strong>{note.title}</strong>:
                             {note.content}
                             (Created at: {new Date(note.created_at).toLocaleString()})
