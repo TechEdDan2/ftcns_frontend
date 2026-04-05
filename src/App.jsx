@@ -16,6 +16,7 @@ import NotesList from './components/notes/NotesList.jsx'
 import NoteDetail from './components/notes/NoteDetail.jsx'
 import NoteCreate from './components/notes/NoteCreate.jsx'
 
+
 import './App.css'
 import FtcnsAPI from './api/api.js'
 
@@ -90,7 +91,6 @@ function App() {
             <Route path="/notes" element={<NotesList />} />
             <Route path="/notes/:id" element={<NoteDetail />} />
             <Route path="/notes/create" element={<NoteCreate onCreateNote={onCreateNote} />} />
-
           </Routes>
         </main>
         <Footer />

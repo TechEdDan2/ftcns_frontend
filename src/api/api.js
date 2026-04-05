@@ -64,9 +64,9 @@ class FtcnsAPI {
         return null;
     }
 
-    //////////////////////////
-    // Individual API routes//
-    //////////////////////////
+    ////////////////////////
+    //  User API routes   //
+    ////////////////////////
 
     /** Sign Up a New User */
     static async signup(data) {
@@ -120,23 +120,8 @@ class FtcnsAPI {
         }
     }
 
-    /** Update user profile. */
-    static async updateUser(username, data) {
-        if (!this.token) {
-            throw new Error("No token found. Please log in.");
-        }
+    /** Future: Update user profile. */
 
-        const headers = { Authorization: `Bearer ${this.token}` }; // Use token from JoblyApi
-
-        try {
-            let res = await this.request(`users/${username}`, data, "patch", headers);
-            return res.user;
-        } catch (err) {
-            console.error("Error updating user:", err.response);
-            let message = err.response?.data?.error?.message || "Unknown error occurred.";
-            throw Array.isArray(message) ? message : [message];
-        }
-    }
 
     //------------------//
     //  Team Functions    //

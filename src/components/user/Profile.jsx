@@ -10,11 +10,6 @@ const Profile = () => {
     const navigate = useNavigate();
 
 
-
-    const handleEditProfile = () => {
-        navigate("/profile/edit");
-    };
-
     useEffect(() => {
         const fetchUserData = async () => {
 
@@ -75,7 +70,8 @@ const Profile = () => {
                 <p>No notes available.</p>
             )}
             {/* Add more user details as needed */}
-            <button onClick={handleEditProfile}>Edit Profile</button>
+            {/* Future Update Update User profile */}
+
         </div>
     );
 };
