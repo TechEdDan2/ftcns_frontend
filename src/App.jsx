@@ -12,6 +12,9 @@ import Footer from './components/nav-bar/Footer.jsx'
 import Profile from './components/user/Profile.jsx'
 import TeamsList from './components/teams/TeamsList.jsx'
 import TeamDetail from './components/teams/TeamDetail.jsx'
+import NotesList from './components/notes/NotesList.jsx'
+import NoteDetail from './components/notes/NoteDetail.jsx'
+import NoteCreate from './components/notes/NoteCreate.jsx'
 
 import './App.css'
 import FtcnsAPI from './api/api.js'
@@ -55,6 +58,16 @@ function App() {
     }
   };
 
+  const onCreateNote = async (formData) => {
+    try {
+      const newNote = await FtcnsAPI.createNote(formData);
+      return newNote; // Return the created note
+    } catch (err) {
+      console.error("Note Creation Failed", err);
+      return null; // Indicates failure
+    }
+  };
+
   const handleLogout = () => {
     setUser(null); // Clear user from local memory
     setToken(null); // Clear token from local memory
@@ -74,6 +87,10 @@ function App() {
             <Route path="/profile" element={<Profile />} />
             <Route path="/teams" element={<TeamsList />} />
             <Route path="/teams/:team_number" element={<TeamDetail />} />
+            <Route path="/notes" element={<NotesList />} />
+            <Route path="/notes/:id" element={<NoteDetail />} />
+            <Route path="/notes/create" element={<NoteCreate onCreateNote={onCreateNote} />} />
+
           </Routes>
         </main>
         <Footer />

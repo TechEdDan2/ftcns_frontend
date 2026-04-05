@@ -139,7 +139,7 @@ class FtcnsAPI {
     }
 
     //------------------//
-    //  Teams Routes    //
+    //  Team Functions    //
     //------------------//
 
     /** 
@@ -157,7 +157,7 @@ class FtcnsAPI {
             return res; // Return filtered teams
         } else {
             let res = await this.request(`teams`);
-            // console.log("All teams response:", res);//Debugging 
+            console.log("All teams response:", res);//Debugging 
             return res; // Return all teams
         }
     }
@@ -174,16 +174,47 @@ class FtcnsAPI {
     }
 
 
+    //---------------------------//
+    //  Note Routes Functions    //
+    //---------------------------//
+    /**
+     * GET All notes - is a generic method to fetch all notes 
+     */
+    static async getAllNotes() {
+        return await this.request(`notes`);
+    }
+
+    /**
+     * GET note by ID - fetches a single note based on its unique ID
+     * @param {number} id - The unique identifier of the note to retrieve
+     * @return {object} The note object matching the provided ID
+     */
+    static async getNoteById(id) {
+        return await this.request(`notes/${id}`);
+    }
+
+    /**
+     * POST create a new note - allows users to create a new note with specified details
+     * @param {object} noteData - An object containing the details of the note to be created (e.g., teamNumber, eventCode, title, content)
+     * @return {object} The newly created note object returned from the API
+     */
+    static async createNote(noteData) {
+        console.log("API Info - Creating note with data:", noteData); // Debugging
+        return await this.request(`notes`, noteData, "post");
+    }
 
 
     //------------------//
     //  Events Routes    //
     //------------------//
+    // 
+    /**
+     * GET all events - retrieves a list of all events from the API
+    */
+    static async getAllEvents() {
+        return await this.request(`events`);
+    }
 
-
-    //------------------//
-    //  Notes Routes    //
-    //------------------//
 }
 
 

@@ -42,9 +42,9 @@ const Profile = () => {
         fetchUserData();
     }, [user]);
 
-    useEffect(() => {
-        console.log("userData.notes:", userData?.notes);
-    }, [userData]);
+    // useEffect(() => {
+    //     console.log("userData.notes:", userData?.notes);
+    // }, [userData]);
 
     if (isLoading) {
         return <div>Loading...</div>;
