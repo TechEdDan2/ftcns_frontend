@@ -160,7 +160,6 @@ const NoteCreate = ({ onCreateNote }) => {
             <TextField
                 label="Note Title"
                 name="noteTitle"
-                helperText="(e.g. Innovative Intake Design)"
                 value={formData.noteTitle}
                 onChange={handleChange}
                 variant="outlined"

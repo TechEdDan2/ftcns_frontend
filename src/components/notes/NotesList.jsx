@@ -2,6 +2,9 @@ import { useState, useEffect } from "react";
 import FtcApi from "../../api/api.js";
 import NoteCard from "./NoteCard.jsx";
 import { useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import { Button, Divider, Typography } from "@mui/material";
+import EditNoteIcon from '@mui/icons-material/EditNote';
 
 // Implement search functionality in the future
 // import Search from "../search/Search.jsx";
@@ -50,15 +53,30 @@ const NotesList = () => {
         return <div>Loading...</div>;
     }
 
-    const handleCreateNote = () => {
-        navigate("/notes/create");
-    };
+    // const handleCreateNote = () => {
+    //     navigate("/notes/create");
+    // };
 
     return (
         <div>
-            <h2>Notes</h2>
-            <button onClick={handleCreateNote} style={{ margin: '1rem' }}>Create Note</button>
+            <Typography variant="h1" gutterBottom>
+                Notes
+            </Typography>
+            <Button
+                // onClick={handleCreateNote}
+                variant="contained"
+                size="large"
+                startIcon={<EditNoteIcon />}
+                component={NavLink}
+                to="/notes/create"
+            >
+                Create Note
+            </Button>
+
+            <Divider component="li" />
+
             {/* <Search onSearch={onSearch} />//Update this feature in the future */}
+
             {notes.length === 0 ? (
                 <p>No notes found.</p>
             ) : (

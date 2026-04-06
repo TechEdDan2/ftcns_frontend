@@ -15,6 +15,7 @@ import TeamDetail from './components/teams/TeamDetail.jsx'
 import NotesList from './components/notes/NotesList.jsx'
 import NoteDetail from './components/notes/NoteDetail.jsx'
 import NoteCreate from './components/notes/NoteCreate.jsx'
+import NoteEditForm from './components/notes/NoteEditForm.jsx'
 
 
 import './App.css'
@@ -91,6 +92,7 @@ function App() {
             <Route path="/notes" element={<NotesList />} />
             <Route path="/notes/:id" element={<NoteDetail />} />
             <Route path="/notes/create" element={<NoteCreate onCreateNote={onCreateNote} />} />
+            <Route path="/notes/:id/edit" element={<NoteEditForm />} />
           </Routes>
         </main>
         <Footer />

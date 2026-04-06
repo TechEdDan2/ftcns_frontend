@@ -120,6 +120,20 @@ class FtcnsAPI {
         }
     }
 
+    static getCurrentUsername() {
+        const token = this.getTokenFromStorage(); // Get token from localStorage
+        if (!token) {
+            console.warn("No token found in storage. User is not logged in.");
+            return null;
+        }
+        const username = this.getUsernameFromToken(token); // Extract username from token
+        if (!username) {
+            console.warn("Failed to extract username from token.");
+            return null;
+        }
+        return username;
+    }
+
     /** Future: Update user profile. */
 
 
@@ -162,8 +176,20 @@ class FtcnsAPI {
     //---------------------------//
     //  Note Routes Functions    //
     //---------------------------//
+
+    /**
+    * POST create a new note - allows users to create a new note with specified details
+    * @param {object} noteData - An object containing the details of the note to be created (e.g., teamNumber, eventCode, title, content)
+    * @return {object} The newly created note object returned from the API
+    */
+    static async createNote(noteData) {
+        console.log("API Info - Creating note with data:", noteData); // Debugging
+        return await this.request(`notes`, noteData, "post");
+    }
+
     /**
      * GET All notes - is a generic method to fetch all notes 
+     * @return {array} An array of note objects retrieved from the API
      */
     static async getAllNotes() {
         return await this.request(`notes`);
@@ -175,19 +201,27 @@ class FtcnsAPI {
      * @return {object} The note object matching the provided ID
      */
     static async getNoteById(id) {
-        return await this.request(`notes/${id}`);
+        let res = await this.request(`notes/${id}`);
+        return res.note; // Return the note object from the response
     }
 
     /**
-     * POST create a new note - allows users to create a new note with specified details
-     * @param {object} noteData - An object containing the details of the note to be created (e.g., teamNumber, eventCode, title, content)
-     * @return {object} The newly created note object returned from the API
+     * updateNote - updates an existing note with new data based on its unique ID
+     * 
+     * @param {UUID} id 
+     * @param {object} data
+     * @returns 
      */
-    static async createNote(noteData) {
-        console.log("API Info - Creating note with data:", noteData); // Debugging
-        return await this.request(`notes`, noteData, "post");
+    static async updateNote(id, data) {
+        try {
+            console.log("API Info - Updating note with ID:", id, "and data:", data); // Debugging
+            let res = await this.request(`notes/${id}`, data, "patch");
+            return res.note; // Return the updated note object
+        } catch (e) {
+            console.error("Error updating note:", e);
+            throw e; // Re-throw the error to be handled by the caller
+        }
     }
-
 
     //------------------//
     //  Events Routes    //

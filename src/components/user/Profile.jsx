@@ -3,6 +3,21 @@ import { useNavigate } from "react-router-dom";
 import FtcnsApi from "../../api/api.js";
 import UserContext from "../../helpers/UserContext.js";
 
+import {
+    Box, Typography, Container, Paper, Avatar,
+    Grid, Card, CardContent, Divider, Chip,
+    List, ListItem, ListItemText, ListItemIcon, Button
+} from "@mui/material";
+import {
+    AccountCircle as AccountIcon,
+    Badge as RoleIcon,
+    Description as NoteIcon,
+    Event as DateIcon,
+    Edit as EditIcon,
+    Settings as SettingsIcon
+} from "@mui/icons-material";
+import { Link } from "react-router-dom";
+
 const Profile = () => {
     const { user } = React.useContext(UserContext);
     const [userData, setUserData] = useState(null);
@@ -50,7 +65,7 @@ const Profile = () => {
     }
 
     return (
-        <div>
+        <>
             <h1>Profile</h1>
             <p><strong>Username:</strong> {userData.username}</p>
             <p>Role: {userData.role}</p>
@@ -69,10 +84,9 @@ const Profile = () => {
             ) : (
                 <p>No notes available.</p>
             )}
-            {/* Add more user details as needed */}
-            {/* Future Update Update User profile */}
+        </>
 
-        </div>
+
     );
 };
 
