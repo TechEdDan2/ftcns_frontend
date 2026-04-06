@@ -14,6 +14,10 @@ import { Link } from "react-router-dom";
  */
 
 const TeamCard = ({ team }) => {
+
+    if (!team) {
+        return <div>No team data available.</div>;
+    }
     return (
         <Card sx={{ minWidth: 275, marginBottom: 2 }}>
             <CardContent>

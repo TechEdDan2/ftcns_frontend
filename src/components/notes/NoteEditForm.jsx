@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import UserContext from "../../helpers/UserContext.js";
 import { Box, TextField, Button, Typography, Paper, Alert, CircularProgress } from "@mui/material";
 import FtcnsApi from "../../api/api";
 
 const NoteEditForm = () => {
     const { id } = useParams();
+    const { user } = React.useContext(UserContext);
     const navigate = useNavigate();
 
     const [formData, setFormData] = useState({
@@ -13,9 +15,8 @@ const NoteEditForm = () => {
     });
     const [isLoading, setIsLoading] = useState(true);
     const [formErrors, setFormErrors] = useState([]);
+    const [userData, setUserData] = useState(null);
     const [isSaving, setIsSaving] = useState(false);
-
-
 
     // Fetch original note data to populate the form
     useEffect(() => {
@@ -37,6 +38,37 @@ const NoteEditForm = () => {
         }
         getNoteDetails();
     }, [id]);
+
+    useEffect(() => {
+        const fetchUserData = async () => {
+
+            console.log("Fetching user data for:", user?.username); // Debugging
+            console.log("User context data:", user); // Debugging
+            console.log("User token:", user?.token); // Debugging
+
+            if (!user || !user.token) {
+                console.warn("No user or token found in context.");
+                setIsLoading(false);
+                return;
+            }
+
+            try {
+                const data = await FtcnsApi.getCurrentUser(user.token, user.username);
+                setUserData(data);
+
+            } catch (err) {
+                console.error("Error fetching user data:", err);
+                if (err.response && err.response.status === 401) {
+                    console.warn("Token expired or invalid. Logging out.");
+                    handleLogout(); // Log the user out
+                }
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchUserData();
+    }, [user]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -63,7 +95,12 @@ const NoteEditForm = () => {
         }
     };
 
-    if (isLoading) return <Box sx={{ textAlign: 'center', mt: 4 }}><CircularProgress /></Box>;
+    if (isLoading) {
+        return <div>Loading...</div>;
+    }
+    // if (!userData) {
+    //     return <div>No user data available.</div>;
+    // }
 
     return (
         <Box sx={{ maxWidth: 600, mx: "auto", mt: 4, p: 2 }}>

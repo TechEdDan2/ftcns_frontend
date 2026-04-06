@@ -110,7 +110,7 @@ const NoteCreate = ({ onCreateNote }) => {
             alert("Unable to create note: Scout ID not found.");
             return;
         }
-        const formDataWithScoutId = { ...formData, scoutId: userData.id }; // Add the scout ID to the form data
+        const formDataWithScoutId = { ...formData, userData }; // Add the scout ID to the form data
         onCreateNote(formDataWithScoutId); // Pass the form data to the parent component
         setFormData({ teamNumber: "", eventCode: "", noteTitle: "", noteText: "" }); // Reset the form
         alert("Note created successfully!");

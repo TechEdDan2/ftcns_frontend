@@ -102,11 +102,7 @@ const TeamDetail = () => {
     }, [team_number]);
 
     if (isLoading) {
-        return (
-            <Box sx={{ display: 'flex', justifyContent: 'center', mt: 8 }}>
-                <CircularProgress color="primary" />
-            </Box>
-        );
+        return <div>Loading...</div>;
     }
 
     if (!teamData) {
@@ -122,7 +118,7 @@ const TeamDetail = () => {
             {/* Team Header Hero */}
             <Paper elevation={3} sx={{ p: 4, mb: 4, borderRadius: 2, bgcolor: 'background.paper', borderLeft: '10px solid #f57e25' }}>
                 <Grid container alignItems="center" spacing={2}>
-                    <Grid item xs={12} md={8}>
+                    <Grid >
                         <Typography variant="overline" color="secondary" sx={{ fontWeight: 'bold', letterSpacing: 1.5 }}>
                             FTC TEAM PROFILE
                         </Typography>
@@ -134,7 +130,7 @@ const TeamDetail = () => {
                             <Chip icon={<HistoryIcon />} label={`Rookie Year: ${teamData.rookie_year}`} variant="outlined" />
                         </Stack>
                     </Grid>
-                    <Grid item xs={12} md={4} sx={{ textAlign: { md: 'right' } }}>
+                    <Grid sx={{ textAlign: { md: 'right' } }}>
                         <Button
                             variant="contained"
                             startIcon={<AddIcon />}
@@ -155,44 +151,40 @@ const TeamDetail = () => {
 
             {/* Notes Section */}
             {teamData.notes && teamData.notes.length > 0 ? (
-                <Grid container spacing={3}>
+                <List>
                     {teamData.notes.map(note => (
-                        <Grid item xs={12} sm={6} md={4} key={note.id}>
-                            <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column', transition: '0.3s', '&:hover': { transform: 'translateY(-5px)', boxShadow: 6 } }}>
-                                <CardActionArea component={Link} to={`/notes/${note.id}`} sx={{ flexGrow: 1 }}>
-                                    <CardContent>
-                                        <Typography variant="caption" color="text.secondary">
-                                            {new Date(note.created_at).toLocaleDateString()}
-                                        </Typography>
-                                        <Typography variant="h6" component="div" gutterBottom sx={{ color: 'primary.main', fontWeight: 600 }}>
-                                            {note.title}
-                                        </Typography>
-                                        <Typography variant="body2" color="text.secondary" sx={{
-                                            display: '-webkit-box',
-                                            WebkitLineClamp: 3,
-                                            WebkitBoxOrient: 'vertical',
-                                            overflow: 'hidden',
-                                        }}>
-                                            {note.content}
-                                        </Typography>
-                                    </CardContent>
-                                </CardActionArea>
-                            </Card>
-                        </Grid>
+                        <ListItem key={note.id} alignItems="flex-start" sx={{ mb: 2, borderRadius: 2, bgcolor: 'background.paper', boxShadow: 1 }}>
+                            <Button
+                                component={Link}
+                                to={`/notes/${note.id}`}
+                                variant="text"
+                                sx={{ textAlign: 'left', width: '100%', justifyContent: 'flex-start', p: 0 }}
+                            >
+                                <Box>
+                                    <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
+                                        {note.title}
+                                    </Typography>
+                                    <Typography variant="body2" color="text.secondary">
+                                        {note.content}
+                                    </Typography>
+                                    <Typography variant="caption" color="text.secondary">
+                                        {new Date(note.created_at).toLocaleString()}
+                                    </Typography>
+                                </Box>
+                            </Button>
+                        </ListItem>
                     ))}
-                </Grid>
+                </List>
             ) : (
-                <Paper sx={{ p: 6, textAlign: 'center', bgcolor: 'action.hover' }}>
-                    <Typography color="text.secondary">
-                        No notes recorded for this team yet. Be the first to scout them!
-                    </Typography>
-                </Paper>
+                <Typography color="text.secondary" sx={{ mt: 4, textAlign: 'center' }}>
+                    No notes recorded for this team yet. Be the first to scout them!
+                </Typography>
             )}
         </Container>
     );
 }
 
-// Simple internal helper for the Stack since we're using MUI
+//  internal helper for the  MUI
 const Stack = ({ children, direction = "row", spacing = 0, sx = {} }) => (
     <Box sx={{ display: 'flex', flexDirection: direction, gap: spacing, ...sx }}>{children}</Box>
 );

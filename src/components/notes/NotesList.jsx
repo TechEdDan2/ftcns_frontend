@@ -52,10 +52,9 @@ const NotesList = () => {
     if (isLoading) {
         return <div>Loading...</div>;
     }
-
-    // const handleCreateNote = () => {
-    //     navigate("/notes/create");
-    // };
+    if (!notes || notes.length === 0) {
+        return <div>No notes found.</div>;
+    }
 
     return (
         <div>

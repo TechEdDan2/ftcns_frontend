@@ -94,6 +94,7 @@ class FtcnsAPI {
 
     /** Get details on a user by username. */
     static async getCurrentUser(token, username) {
+        console.log("API Info - Fetching current user with token:", token, "and username:", username); // Debugging
 
         if (!token) {
             throw new Error("No token found. Please log in.");

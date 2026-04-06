@@ -44,6 +44,9 @@ const TeamsList = () => {
     if (isLoading) {
         return <div>Loading...</div>;
     }
+    if (!teams || teams.length === 0) {
+        return <div>No teams found.</div>;
+    }
 
     return (
         <div>

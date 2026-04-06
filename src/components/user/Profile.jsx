@@ -3,20 +3,8 @@ import { useNavigate } from "react-router-dom";
 import FtcnsApi from "../../api/api.js";
 import UserContext from "../../helpers/UserContext.js";
 
-import {
-    Box, Typography, Container, Paper, Avatar,
-    Grid, Card, CardContent, Divider, Chip,
-    List, ListItem, ListItemText, ListItemIcon, Button
-} from "@mui/material";
-import {
-    AccountCircle as AccountIcon,
-    Badge as RoleIcon,
-    Description as NoteIcon,
-    Event as DateIcon,
-    Edit as EditIcon,
-    Settings as SettingsIcon
-} from "@mui/icons-material";
-import { Link } from "react-router-dom";
+import { Box, Typography, List, ListItem } from "@mui/material";
+
 
 const Profile = () => {
     const { user } = React.useContext(UserContext);
@@ -52,10 +40,6 @@ const Profile = () => {
         fetchUserData();
     }, [user]);
 
-    // useEffect(() => {
-    //     console.log("userData.notes:", userData?.notes);
-    // }, [userData]);
-
     if (isLoading) {
         return <div>Loading...</div>;
     }
@@ -65,28 +49,33 @@ const Profile = () => {
     }
 
     return (
-        <>
-            <h1>Profile</h1>
-            <p><strong>Username:</strong> {userData.username}</p>
-            <p>Role: {userData.role}</p>
-            <h2>Notes:</h2>
+        <Box sx={{ maxWidth: 600, mx: 'auto', mt: 4 }}>
+            <Typography variant="h4" gutterBottom>Profile</Typography>
+            <Typography variant="subtitle1"><strong>Username:</strong> {userData.username}</Typography>
+            <Typography variant="subtitle2" color="text.secondary" gutterBottom>Role: {userData.role}</Typography>
+            <Typography variant="h6" sx={{ mt: 3 }}>Notes</Typography>
             {userData.notes && userData.notes.length > 0 ? (
-                <ul>
+                <List>
                     {userData.notes.map(note => (
-                        <li key={note.id}>
-                            <strong>Team: </strong> {note.teamnumber}&nbsp;
-                            <strong>{note.title}</strong>:
-                            {note.content}
-                            (Created at: {new Date(note.created_at).toLocaleString()})
-                        </li>
+                        <ListItem key={note.id} alignItems="flex-start" sx={{ pl: 0, borderRadius: 2, bgcolor: 'background.paper', boxShadow: 1, mb: 2 }}>
+                            <Box>
+                                <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
+                                    Team: {note.teamnumber} — {note.title}
+                                </Typography>
+                                <Typography variant="body2" color="text.secondary">
+                                    {note.content}
+                                </Typography>
+                                <Typography variant="caption" color="text.secondary">
+                                    Created at: {new Date(note.created_at).toLocaleString()}
+                                </Typography>
+                            </Box>
+                        </ListItem>
                     ))}
-                </ul>
+                </List>
             ) : (
-                <p>No notes available.</p>
+                <Typography variant="body2" color="text.secondary">No notes available.</Typography>
             )}
-        </>
-
-
+        </Box>
     );
 };
 
