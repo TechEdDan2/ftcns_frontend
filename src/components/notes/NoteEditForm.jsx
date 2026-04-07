@@ -13,62 +13,31 @@ const NoteEditForm = () => {
         noteTitle: "",
         noteText: "",
     });
+
     const [isLoading, setIsLoading] = useState(true);
     const [formErrors, setFormErrors] = useState([]);
-    const [userData, setUserData] = useState(null);
     const [isSaving, setIsSaving] = useState(false);
 
-    // Fetch original note data to populate the form
     useEffect(() => {
         async function getNoteDetails() {
-            console.log("Fetching note with ID:", id);
             try {
                 const note = await FtcnsApi.getNoteById(id);
+                console.log("LOOK LOOK LOOK Fetched Note Details:", note); // Debug log
+
+                // Having Key Mismatch...?
                 setFormData({
-                    noteTitle: note.note_title,
-                    noteText: note.noteText,
+                    noteTitle: note.note_title || "",
+                    noteText: note.note_text || note.noteText || "",
                 });
-                console.log("Note data loaded into form:", note); // Debugging
-                console.log("Form data state after loading note:", formData); // Debugging
             } catch (err) {
-                setFormErrors(["Could not load note data."]);
+                console.error("Load Error:", err);
+                setFormErrors(Array.isArray(err) ? err : ["Could not load note data."]);
             } finally {
                 setIsLoading(false);
             }
         }
         getNoteDetails();
     }, [id]);
-
-    useEffect(() => {
-        const fetchUserData = async () => {
-
-            console.log("Fetching user data for:", user?.username); // Debugging
-            console.log("User context data:", user); // Debugging
-            console.log("User token:", user?.token); // Debugging
-
-            if (!user || !user.token) {
-                console.warn("No user or token found in context.");
-                setIsLoading(false);
-                return;
-            }
-
-            try {
-                const data = await FtcnsApi.getCurrentUser(user.token, user.username);
-                setUserData(data);
-
-            } catch (err) {
-                console.error("Error fetching user data:", err);
-                if (err.response && err.response.status === 401) {
-                    console.warn("Token expired or invalid. Logging out.");
-                    handleLogout(); // Log the user out
-                }
-            } finally {
-                setIsLoading(false);
-            }
-        };
-
-        fetchUserData();
-    }, [user]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -81,40 +50,43 @@ const NoteEditForm = () => {
         setIsSaving(true);
 
         try {
-            console.log("Submitting updated note data:", formData); // Debugging
+            // const dataToSubmit = {
+            //     note_title: formData.noteTitle,
+            //     note_text: formData.noteText
+            // };
+
+            // console.log("Submitting Update with Data:", dataToSubmit); // Debug log
+
             await FtcnsApi.updateNote(id, formData);
-            // Redirect back to the team page or note list
             navigate(-1);
         } catch (err) {
-            // setFormErrors(Array.isArray(err) ? err : [err]);
-            console.error("Error updating note:", err); // Debugging
-            const errorMessage = err.response?.data?.error || "An unexpected error occurred.";
-            setFormErrors([errorMessage]);
+            console.error("Submit Error:", err);
+            // Ensure we are setting an array of strings for the .map() in the JSX
+            setFormErrors(Array.isArray(err) ? err : [err.message || "Update failed."]);
         } finally {
             setIsSaving(false);
         }
     };
 
     if (isLoading) {
-        return <div>Loading...</div>;
+        return (
+            <Box sx={{ display: 'flex', justifyContent: 'center', mt: 10 }}>
+                <CircularProgress />
+            </Box>
+        );
     }
-    // if (!userData) {
-    //     return <div>No user data available.</div>;
-    // }
 
     return (
         <Box sx={{ maxWidth: 600, mx: "auto", mt: 4, p: 2 }}>
             <Paper elevation={3} sx={{ p: 4, borderRadius: 2 }}>
-                <Typography variant="h5" color="primary" gutterBottom>
+                <Typography variant="h5" color="primary" gutterBottom sx={{ fontWeight: 700 }}>
                     Edit Scouting Note
                 </Typography>
 
-                <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
-                    Update your observations to maintain accurate team data.
-                </Typography>
-
                 {formErrors.map((error, idx) => (
-                    <Alert severity="error" key={idx} sx={{ mb: 2 }}>{error}</Alert>
+                    <Alert severity="error" key={idx} sx={{ mb: 2 }}>
+                        {typeof error === 'string' ? error : "An error occurred."}
+                    </Alert>
                 ))}
 
                 <Box component="form" onSubmit={handleSubmit}>
@@ -126,7 +98,6 @@ const NoteEditForm = () => {
                         onChange={handleChange}
                         margin="normal"
                         required
-                        placeholder="e.g., Innovative Intake Mechanism"
                     />
 
                     <TextField
@@ -139,7 +110,6 @@ const NoteEditForm = () => {
                         multiline
                         rows={6}
                         required
-                        placeholder="Describe the robot's performance, autonomous path, or teleop efficiency..."
                     />
 
                     <Box sx={{ mt: 3, display: 'flex', gap: 2 }}>
@@ -157,6 +127,7 @@ const NoteEditForm = () => {
                             color="secondary"
                             fullWidth
                             onClick={() => navigate(-1)}
+                            disabled={isSaving}
                         >
                             Cancel
                         </Button>
@@ -166,5 +137,4 @@ const NoteEditForm = () => {
         </Box>
     );
 };
-
 export default NoteEditForm;
