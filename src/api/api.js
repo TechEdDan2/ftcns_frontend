@@ -35,7 +35,6 @@ class FtcnsAPI {
         try {
             return (await axios({ url, method, data, params, headers })).data;
         } catch (err) {
-            console.error("API Error:", err.response);
             let message = err.response.data.error.message;
             throw Array.isArray(message) ? message : [message];
         }
@@ -94,7 +93,6 @@ class FtcnsAPI {
 
     /** Get details on a user by username. */
     static async getCurrentUser(token, username) {
-        console.log("API Info - Fetching current user with token:", token, "and username:", username); // Debugging
 
         if (!token) {
             throw new Error("No token found. Please log in.");
@@ -153,11 +151,9 @@ class FtcnsAPI {
     static async getTeams(searchTerm, searchType) {
         if (searchTerm) {
             let res = await this.request(`teams/filter`, { term: searchTerm, type: searchType });
-            // console.log("Filtered teams response:", res);//Debugging 
             return res; // Return filtered teams
         } else {
             let res = await this.request(`teams`);
-            console.log("All teams response:", res);//Debugging 
             return res; // Return all teams
         }
     }
@@ -184,7 +180,6 @@ class FtcnsAPI {
     * @return {object} The newly created note object returned from the API
     */
     static async createNote(noteData) {
-        console.log("API Info - Creating note with data:", noteData); // Debugging
         return await this.request(`notes`, noteData, "post");
     }
 
@@ -215,7 +210,6 @@ class FtcnsAPI {
      */
     static async updateNote(id, data) {
         try {
-            console.log("API Info - Updating note with ID:", id, "and data:", data); // Debugging
             let res = await this.request(`notes/${id}`, data, "patch");
             return res.note; // Return the updated note object
         } catch (e) {
@@ -233,7 +227,6 @@ class FtcnsAPI {
      */
     static async deleteNote(id) {
         try {
-            console.log("API Info - Deleting note with ID:", id); // Debugging
             await this.request(`notes/${id}`, {}, "delete");
             return { success: true }; // Indicate successful deletion
         } catch (e) {

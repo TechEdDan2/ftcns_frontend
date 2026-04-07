@@ -50,7 +50,7 @@ const Profile = () => {
 
     return (
         <Box sx={{ maxWidth: 600, mx: 'auto', mt: 4 }}>
-            <Typography variant="h4" gutterBottom>Profile</Typography>
+            <Typography variant="h2" gutterBottom>Profile</Typography>
             <Typography variant="subtitle1"><strong>Username:</strong> {userData.username}</Typography>
             <Typography variant="subtitle2" color="text.secondary" gutterBottom>Role: {userData.role}</Typography>
             <Typography variant="h6" sx={{ mt: 3 }}>Notes</Typography>

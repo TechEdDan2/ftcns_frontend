@@ -22,7 +22,6 @@ const NoteEditForm = () => {
         async function getNoteDetails() {
             try {
                 const note = await FtcnsApi.getNoteById(id);
-                console.log("LOOK LOOK LOOK Fetched Note Details:", note); // Debug log
 
                 // Having Key Mismatch...?
                 setFormData({

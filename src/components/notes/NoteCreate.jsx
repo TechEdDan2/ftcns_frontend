@@ -72,10 +72,8 @@ const NoteCreate = ({ onCreateNote }) => {
             }
 
             try {
-                console.log("What is in user context?", user); // Debugging
                 const data = await FtcnsApi.getCurrentUser(user.token, user.username);
                 setUserData(data);
-                console.log("Fetched user data:", data); // Debugging
 
             } catch (err) {
                 console.error("Error fetching user data:", err);
@@ -94,10 +92,6 @@ const NoteCreate = ({ onCreateNote }) => {
     if (isLoading) {
         return <div>Loading...</div>;
     }
-
-    // if (!userData) {
-    //     return <div>No user data available.</div>;
-    // }
 
     const handleChange = (e) => {
         const { name, value } = e.target;

@@ -35,9 +35,7 @@ const NotesList = () => {
         async function fetchNotes() {
             try {
                 const data = await FtcApi.getAllNotes();
-                console.log("Fetched notes:", data);// Debugging
                 setNotes(Array.isArray(data.notes) ? data.notes : []); // Ensure notes is always an array
-                console.log("Processed notes:", Array.isArray(data.notes) ? data.notes : []);// Debugging
             } catch (error) {
                 console.error("Error fetching notes:", error);
                 setNotes([]); // Fallback to an empty array on error
@@ -58,7 +56,7 @@ const NotesList = () => {
 
     return (
         <div>
-            <Typography variant="h1" gutterBottom>
+            <Typography variant="h2" gutterBottom>
                 Notes
             </Typography>
             <Button

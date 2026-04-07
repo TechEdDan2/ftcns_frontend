@@ -13,8 +13,6 @@ const useLocal = (key, initialValue = null) => {
     });
 
     useEffect(() => {
-
-
         if (value === null) {
             localStorage.removeItem(key);
         } else {

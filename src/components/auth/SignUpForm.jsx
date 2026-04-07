@@ -84,8 +84,6 @@ const SignUpForm = () => {
                 }}
             />
 
-
-
             <Button type="submit" variant="contained" color="primary">
                 Sign Up
             </Button>
