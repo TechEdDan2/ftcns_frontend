@@ -224,6 +224,24 @@ class FtcnsAPI {
         }
     }
 
+    /**
+     * 
+     * deleteNote - deletes a note based on its unique ID, removing it from the database
+     * 
+     * @param {UUID} id 
+     * @returns success message or error
+     */
+    static async deleteNote(id) {
+        try {
+            console.log("API Info - Deleting note with ID:", id); // Debugging
+            await this.request(`notes/${id}`, {}, "delete");
+            return { success: true }; // Indicate successful deletion
+        } catch (e) {
+            console.error("Error deleting note:", e);
+            throw e; // Re-throw the error to be handled by the caller
+        }
+    }
+
     //------------------//
     //  Events Routes    //
     //------------------//

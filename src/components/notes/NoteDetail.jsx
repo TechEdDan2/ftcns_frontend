@@ -48,6 +48,23 @@ const NoteDetail = () => {
         );
     }
 
+    const handleDelete = async () => {
+        const confirmed = window.confirm("Are you sure you want to delete this scouting note? This cannot be undone.");
+
+        if (confirmed) {
+            try {
+                // Ensure this method exists in your api.js (we can double-check that next)
+                await FtcApi.deleteNote(id);
+
+                // Success! Head back to the previous list (Team or Event page)
+                navigate(-1);
+            } catch (err) {
+                console.error("Delete failed:", err);
+                alert("Could not delete the note. Please try again.");
+            }
+        }
+    };
+
     return (
         <Container maxWidth="md" sx={{ mt: 4, mb: 4 }}>
             {/* Back Button */}
@@ -132,6 +149,7 @@ const NoteDetail = () => {
                                 variant="outlined"
                                 color="error"
                                 startIcon={<DeleteIcon />}
+                                onClick={handleDelete}
                             >
                                 Delete
                             </Button>
