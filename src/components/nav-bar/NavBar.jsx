@@ -14,7 +14,7 @@ const NavBar = ({ isLoggedIn, handleLogout }) => {
             <AppBar position="static">
                 <Toolbar>
                     <Typography variant="h6" component={NavLink} to="/" sx={{ flexGrow: 1, textDecoration: 'none', color: 'white', textAlign: 'left' }}>
-                        <img src="/src/assets/ftcns.png" alt="FTC Note Scout Logo" style={{ width: "32px" }} />
+                        <img src="/ftcns.png" alt="FTC Note Scout Logo" style={{ width: "32px" }} />
                     </Typography>
 
                     {isLoggedIn ? (
